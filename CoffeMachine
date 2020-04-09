@@ -1,0 +1,117 @@
+water = 400
+milk = 540
+coffee = 120
+cups = 9
+money = 550
+supply = [water, milk, coffee, cups, money]
+earned = []
+
+
+def supply_state():
+    print("""\nThe coffee machine has:
+    {} of water
+    {} of milk
+    {} of coffee beans
+    {} of disposable cups
+    {} of money""".format(supply[0], supply[1], supply[2], supply[3], supply[4]))
+
+
+def fill():
+    global supply
+    water_sup = int(input('Write how many ml of water do you want to add:\n'))
+    supply[0] = water_sup + supply[0]
+    milk_sup = int(input('Write how many ml of milk do you want to add:\n'))
+    supply[1] = milk_sup + supply[1]
+    beans_sup = int(input('Write how many grams of coffee beans do you want to add:\n'))
+    supply[2] = beans_sup + supply[2]
+    cups_sup = int(input('Write how many disposable cups of coffee do you want to add:\n'))
+    supply[3] = cups_sup + supply[3]
+    start()
+
+
+def espresso():
+    global supply
+    if supply[0] < 250:
+        print('Sorry, not enough water!\n')
+    if supply[2] < 16:
+        print('Sorry, not enough coffee beans!\n')
+    if supply[3] < 1:
+        print('Sorry, not enough disposable cups!\n')
+    elif supply[0] >= 250 and supply[2] >= 16 and supply[3] >= 1:
+        supply = [supply[0] - 250, supply[1] - 0, supply[2] - 16, supply[3] - 1, supply[4] + 4]
+        print('I have enough resources, making you a coffee!\n')
+
+
+def latte():
+    global supply
+    if supply[0] < 350:
+        print('Sorry, not enough water!')
+    if supply[1] < 75:
+        print('Sorry, not enough milk!')
+    if supply[2] < 20:
+        print('Sorry, not enough coffee beans!')
+    if supply[3] < 1:
+        print('Sorry, not enough disposable cups!')
+    elif supply[0] >= 350 and supply[1] >= 75 and supply[2] >= 20 and supply[3] >= 1:
+        supply = [supply[0] - 350, supply[1] - 75, supply[2] - 20, supply[3] - 1, supply[4] + 7]
+        print('I have enough resources, making you a coffee!\n')
+
+
+def cappuccino():
+    global supply
+    if supply[0] < 200:
+        print('Sorry, not enough water!\n')
+    if supply[1] < 100:
+        print('Sorry, not enough milk!\n')
+    if supply[2] < 12:
+        print('Sorry, not enough coffee beans!\n')
+    if supply[3] < 1:
+        print('Sorry, not enough disposable cups!')
+    elif supply[0] >= 200 and supply[1] >= 100 and supply[2] >= 12 and supply[3] >= 1:
+        supply = [supply[0] - 200, supply[1] - 100, supply[2] - 12, supply[3] - 1, supply[4] + 6]
+        print('I have enough resources, making you a coffee!\n')
+
+
+def take():
+    global supply
+    earned.append(supply[4])
+    supply[4] -= supply[4]
+    print('\nI gave you ${}\n'.format(earned[0]))
+    start()
+
+
+def start():
+    y = 1
+    while y == 1:
+        user_start = input('Write action (buy, fill, take, remaining, exit):\n')
+        if user_start == 'buy':
+            buy()
+            y -= 1
+        if user_start == 'take':
+            take()
+            y -= 1
+        if user_start == 'fill':
+            fill()
+            y -= 1
+        if user_start == 'remaining':
+            supply_state()
+        if user_start == 'exit':
+            break
+
+
+def buy():
+    choice = input('\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:\n')
+    if choice == 'back':
+        start()
+    elif int(choice) == 1:
+        espresso()
+        start()
+    elif int(choice) == 2:
+        latte()
+        start()
+    elif int(choice) == 3:
+        cappuccino()
+        start()
+
+
+start()
